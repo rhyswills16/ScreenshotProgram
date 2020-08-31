@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
 
 public class TransferableImage implements Transferable {
     Image image;
@@ -37,6 +36,4 @@ public class TransferableImage implements Transferable {
         }
         return false;
     }
-
-
 }

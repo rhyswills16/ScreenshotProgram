@@ -1,4 +1,5 @@
 import javax.imageio.ImageIO;
+import javax.naming.spi.DirectoryManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -6,9 +7,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class Main {
-    private JFrame mainFrame;
-    private JLabel statusLabel;
-    private JPanel controlPanel;
+    private final JFrame mainFrame;
+    private final JLabel statusLabel;
+    private final JPanel controlPanel;
 
     private Main() {
         this.mainFrame = new JFrame("Screen Capture");
@@ -41,21 +42,17 @@ public class Main {
                 Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                 clipboard.setContents(trans, null);
 
-                /* IF U WANT TO SAVE TO A DIRECTORY
-                final File savePath = new File(find out how to find the default images path);
-                ImageIO.write(image, "JPG", savePath);
-                */
-
                 Main.this.statusLabel.setText("Copied to clipboard.");
                 Main.this.mainFrame.setVisible(true);
-                } catch (Exception awtException) {
-                    awtException.printStackTrace();
-                }
+            } catch (Exception awtException) {
+                awtException.printStackTrace();
+            }
         });
 
         saveButton.addActionListener(e -> {
             final File savePath = new File("Users/rhyswilliams/Desktop");
             // ImageIO.write(image, "JPG", savePath);
+            // somehow gotta get 'Image' from the okButton function
         });
 
         this.controlPanel.add(okButton);
