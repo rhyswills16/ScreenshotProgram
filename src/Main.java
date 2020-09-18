@@ -1,5 +1,4 @@
 import javax.imageio.ImageIO;
-import javax.naming.spi.DirectoryManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -7,31 +6,33 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class Main {
-    private final JFrame mainFrame;
-    private final JLabel statusLabel;
-    private final JPanel controlPanel;
+    private final JFrame MAIN_FRAME;
+    private final JLabel STATUS_LABEL;
+    private final JPanel CONTROL_PANEL;
 
     private Main() {
-        this.mainFrame = new JFrame("Screen Capture");
-        this.statusLabel = new JLabel("", JLabel.CENTER);
-        this.controlPanel = new JPanel();
+        this.MAIN_FRAME = new JFrame("Screen Capture");
+        this.STATUS_LABEL = new JLabel("", JLabel.CENTER);
+        this.CONTROL_PANEL = new JPanel();
 
-        this.mainFrame.setSize(600, 300);
-        this.mainFrame.setLayout(new GridLayout(2, 1));
-        this.mainFrame.add(this.controlPanel);
-        this.mainFrame.add(this.statusLabel);
-        this.mainFrame.setVisible(true);
-        this.mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.MAIN_FRAME.setSize(600, 300);
+        this.MAIN_FRAME.getContentPane().setBackground(Color.DARK_GRAY); // currently only alters half of the screen for some reason
+        this.MAIN_FRAME.setLayout(new GridLayout(2, 1));
+        this.MAIN_FRAME.add(this.CONTROL_PANEL);
+        this.MAIN_FRAME.add(this.STATUS_LABEL);
+        this.MAIN_FRAME.setVisible(true);
+        this.MAIN_FRAME.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        this.controlPanel.setLayout(new FlowLayout());
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Name");
+
+        this.CONTROL_PANEL.setLayout(new FlowLayout());
     }
 
     private void show() {
         final JButton okButton = new JButton("Take Screenshot");
-        final JButton saveButton = new JButton("Click to save your most recent screenshot");
 
         okButton.addActionListener(e -> {
-            Main.this.mainFrame.setVisible(false);
+            Main.this.MAIN_FRAME.setVisible(false);
 
             try {
                 final Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -42,22 +43,15 @@ public class Main {
                 Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                 clipboard.setContents(trans, null);
 
-                Main.this.statusLabel.setText("Copied to clipboard.");
-                Main.this.mainFrame.setVisible(true);
+                Main.this.STATUS_LABEL.setText("Copied to clipboard.");
+                Main.this.MAIN_FRAME.setVisible(true);
             } catch (Exception awtException) {
                 awtException.printStackTrace();
             }
         });
 
-        saveButton.addActionListener(e -> {
-            final File savePath = new File("Users/rhyswilliams/Desktop");
-            // ImageIO.write(image, "JPG", savePath);
-            // somehow gotta get 'Image' from the okButton function
-        });
-
-        this.controlPanel.add(okButton);
-        this.mainFrame.setVisible(true);
-        this.mainFrame.add(saveButton);
+        this.CONTROL_PANEL.add(okButton);
+        this.MAIN_FRAME.setVisible(true);
     }
 
     public static void main(String[] args) {
